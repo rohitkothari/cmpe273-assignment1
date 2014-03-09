@@ -24,6 +24,9 @@ import edu.sjsu.cmpe.library.domain.Book;
 import edu.sjsu.cmpe.library.dto.BookDto;
 import edu.sjsu.cmpe.library.dto.LinkDto;
 import edu.sjsu.cmpe.library.dto.LinksDto;
+import edu.sjsu.cmpe.library.dto.ReviewsDto;
+import edu.sjsu.cmpe.library.domain.Review;
+import edu.sjsu.cmpe.library.dto.ReviewDto;
 import edu.sjsu.cmpe.library.repository.BookRepositoryInterface;
 
 @Path("/v1/books")
@@ -32,6 +35,7 @@ import edu.sjsu.cmpe.library.repository.BookRepositoryInterface;
 public class BookResource {
     /** bookRepository instance */
     private final BookRepositoryInterface bookRepository;
+    private int reviewId=0;
 
     /**
      * BookResource constructor
@@ -101,5 +105,46 @@ public class BookResource {
 	    responseMap.put("links", links);
     	return Response.status(200).entity(responseMap).build();
     }
+    
+    @POST
+    @Path("/{isbn}/reviews")
+    @Timed(name = "create-review")
+    public Response createReview(@PathParam("isbn") LongParam isbn, Review reviews) {
+
+    	Book book = bookRepository.getBookByISBN(isbn.get());
+
+    	reviews.setId(reviewId);
+    	reviewId++;
+    	book.getReviews().add(reviews);
+
+    	ReviewDto reviewResponse = new ReviewDto(reviews);
+
+
+    	Map<String, Object> response_Map = new HashMap<String, Object>();
+    	List<LinkDto> links = new ArrayList<LinkDto>();
+    	links.add(new LinkDto("view-review", "/books/" + book.getIsbn() + "/reviews/" + reviews.getId(), "GET"));
+
+    	response_Map.put("links", links);
+    	return Response.status(201).entity(response_Map).build();
+
+    } 
+    
+    @GET
+    @Path("/{isbn}/reviews/{review_id}")
+    @Timed(name = "view-book-review")
+
+    public ReviewDto viewReview (@PathParam("isbn") LongParam isbn,@PathParam("review_id") int reviewid ) {
+
+    	Book book = bookRepository.getBookByISBN(isbn.get());
+    	Review review =book.getbookReview(reviewid);
+    	
+       	ReviewDto reviewResponse = new ReviewDto(review);
+       	
+       	reviewResponse.addLink(new LinkDto("view-book-review", "/books/" + book.getIsbn()+"/reviews/","GET"));
+    	return reviewResponse;
+    	  	
+    	   }
+    
+    
 }
 

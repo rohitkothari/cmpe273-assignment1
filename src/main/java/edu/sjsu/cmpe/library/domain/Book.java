@@ -1,22 +1,31 @@
 package edu.sjsu.cmpe.library.domain;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 public class Book {
     private long isbn;
     private String title;
-    private String publicationDate;
+    @JsonProperty("publication-date")
+    private String publication;
     private String language;
+    @JsonProperty("num-pages")
     private int numberOfPages;
     private String status;
+    //new fields added here
+    private List<Review> reviews = new ArrayList<Review>();
+    private ArrayList<Author> author = new ArrayList<Author>();
     
-    // More fields added here
-
-    public String getPublicationDate() {
-		return publicationDate;
+	public String getPublication() {
+		return publication;
 	}
 
-	public void setPublicationDate(String publicationDate) {
-		this.publicationDate = publicationDate;
+	public void setPublication(String publication) {
+		this.publication = publication;
 	}
 
 	public String getLanguage() {
@@ -41,6 +50,26 @@ public class Book {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public  Review getbookReview(int reviewid) {
+    	return this.reviews.get(reviewid);
+    }
+	
+	public void setReviews(ArrayList<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	public ArrayList<Author> getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(ArrayList<Author> author) {
+		this.author = author;
 	}
 
 	/**
