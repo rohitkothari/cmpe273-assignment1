@@ -1,13 +1,24 @@
 package edu.sjsu.cmpe.library.domain;
 
-public class Review {
-	private int id;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import edu.sjsu.cmpe.library.dto.LinksDto;
+
+public class Review extends LinksDto {
+
+	private long id;
+	@NotNull
 	private int rating;
+	@NotEmpty
 	private String comment;
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public int getRating() {
@@ -22,6 +33,6 @@ public class Review {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
-	
+
+
 }

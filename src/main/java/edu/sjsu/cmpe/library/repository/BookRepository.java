@@ -40,12 +40,24 @@ public class BookRepository implements BookRepositoryInterface {
 	// Generate new ISBN
 	Long isbn = generateISBNKey();
 	newBook.setIsbn(isbn);
+
 	// TODO: create and associate other fields such as author
-	
+
 	// Finally, save the new book into the map
 	bookInMemoryMap.putIfAbsent(isbn, newBook);
 
 	return newBook;
+    }
+    
+    public void deleteBook(Long isbn){
+    bookInMemoryMap.remove(isbn);
+    }
+    
+    public Book updateBook(Long isbn, String newStatus){
+    	Book updatedBook = bookInMemoryMap.get(isbn);
+    	updatedBook.setStatus(newStatus);
+    	bookInMemoryMap.put(isbn, updatedBook);
+    	return updatedBook;
     }
 
     /**
@@ -57,18 +69,5 @@ public class BookRepository implements BookRepositoryInterface {
 		"ISBN was %s but expected greater than zero value", isbn);
 	return bookInMemoryMap.get(isbn);
     }
-    
-    @Override
-    public void deleteBook(Book book){
-    	
-    	Long isbn = book.getIsbn();
-    	bookInMemoryMap.remove(isbn, book);
-    }
-
-	@Override
-	public void updateBook(Book book, String status) {
-		// TODO Auto-generated method stub
-		book.setStatus(status);
-	}
 
 }

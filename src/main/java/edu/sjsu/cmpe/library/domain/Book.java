@@ -4,85 +4,78 @@ package edu.sjsu.cmpe.library.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-
+@JsonPropertyOrder({ "isbn", "title", "publication-date", "language", "num-pages", "status", "authors", "reviews"})
 public class Book {
-    private long isbn;
+	@JsonProperty
+	private long isbn;
+	@JsonProperty
+	@NotEmpty
     private String title;
-    @JsonProperty("publication-date")
-    private String publication;
+	@JsonProperty("publication-date")
+	private String publication_date;
+	@JsonProperty
     private String language;
-    @JsonProperty("num-pages")
-    private int numberOfPages;
+	@JsonProperty("num-pages")
+    private int num_pages;
+    @JsonProperty
     private String status;
-    //new fields added here
-    private List<Review> reviews = new ArrayList<Review>();
-    private ArrayList<Author> author = new ArrayList<Author>();
-    
-	public String getPublication() {
-		return publication;
-	}
+    @NotEmpty
+	@Valid
+	@JsonProperty
+    private Author[] authors;
 
-	public void setPublication(String publication) {
-		this.publication = publication;
-	}
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-	public int getNumberOfPages() {
-		return numberOfPages;
-	}
-
-	public void setNumberOfPages(int numberOfPages) {
-		this.numberOfPages = numberOfPages;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
+    /**
+	 * @return the reviews
+	 */
 	public List<Review> getReviews() {
 		return reviews;
 	}
 
-	public  Review getbookReview(int reviewid) {
-    	return this.reviews.get(reviewid);
-    }
-	
-	public void setReviews(ArrayList<Review> reviews) {
+
+	/**
+	 * @param reviews the reviews to set
+	 */
+	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
 
-	public ArrayList<Author> getAuthor() {
-		return author;
+	@JsonProperty
+    private List<Review> reviews = new ArrayList<Review>();
+    
+	/**
+	 * @return the authors
+	 */
+	public Author[] getAuthors() {
+		return authors;
 	}
 
-	public void setAuthor(ArrayList<Author> author) {
-		this.author = author;
-	}
 
 	/**
+	 * @param authors the authors to set
+	 */
+	public void setAuthors(Author[] authors) {
+		this.authors = authors;
+	}
+
+    /**
      * @return the isbn
      */
     public long getIsbn() {
 	return isbn;
     }
 
-    /**
+	/**
      * @param isbn
      *            the isbn to set
      */
+       
     public void setIsbn(long isbn) {
 	this.isbn = isbn;
     }
@@ -101,4 +94,69 @@ public class Book {
     public void setTitle(String title) {
 	this.title = title;
     }
+
+
+	/**
+	 * @return the publication_date
+	 */
+	public String getPublication_date() {
+		return publication_date;
+	}
+
+
+	/**
+	 * @param publication_date the publication_date to set
+	 */
+	public void setPublication_date(String publication_date) {
+		this.publication_date = publication_date;
+	}
+
+
+	/**
+	 * @return the num_pages
+	 */
+	public int getNum_pages() {
+		return num_pages;
+	}
+
+
+	/**
+	 * @param num_pages the num_pages to set
+	 */
+	public void setNum_pages(int num_pages) {
+		this.num_pages = num_pages;
+	}
+
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+	/**
+     * @return a review
+     */
+	public Review getoneReview(int id) {
+		return this.reviews.get(id);
+	}
+
+	/**
+     * @return on author
+     */
+	public Author getoneAuthor(int id) {
+		return this.authors[id];	
+	}
+
 }
