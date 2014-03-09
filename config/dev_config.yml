@@ -5,10 +5,10 @@ http:
   rootPath: /library/*
 
   # The port on which the HTTP server listens for service requests.
-  port: 7000
+  port: 8080
 
   # The port on which the HTTP server listens for administrative requests.
-  adminPort: 7010
+  adminPort: 8081
 
 # Logging settings.
 logging:
